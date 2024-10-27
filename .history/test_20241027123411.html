@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>深色模式扩展检测示例</title>
+    <style>
+        #test-element {
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+            width: 1px;
+            height: 1px;
+            background-color: rgb(255, 255, 255);
+        }
+    </style>
+    <script>
+        function checkDarkModeExtension() {
+            const testElement = document.createElement('div');
+            testElement.id = 'test-element';
+            document.body.appendChild(testElement);
+
+            // 给扩展一些时间来修改元素
+            setTimeout(() => {
+                const computedStyle = window.getComputedStyle(testElement);
+                const backgroundColor = computedStyle.backgroundColor;
+                const textColor = computedStyle.color;
+
+                const resultElement = document.getElementById('result');
+
+                if (backgroundColor !== 'rgb(255, 255, 255)' || textColor !== 'rgb(0, 0, 0)') {
+                    resultElement.textContent = '检测到可能有深色模式扩展在运行';
+                    document.body.style.backgroundColor = '#333';
+                    document.body.style.color = '#fff';
+                } else {
+                    resultElement.textContent = '未检测到深色模式扩展';
+                    document.body.style.backgroundColor = '#fff';
+                    document.body.style.color = '#333';
+                }
+
+                document.body.removeChild(testElement);
+            }, 50); // 等待50毫秒
+        }
+
+        document.addEventListener('DOMContentLoaded', checkDarkModeExtension);
+    </script>
+</head>
+<body>
+    <h1>深色模式扩展检测示例</h1>
+    <p>检测结果：<span id="result">正在检测...</span></p>
+    <p>这是一个深色模式扩展检测示例。如果检测到扩展可能更改了页面颜色，背景和文字颜色会相应变化。</p>
+</body>
+</html>

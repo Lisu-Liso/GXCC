@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>深色模式检测示例</title>
+    <script>
+        // 检查是否有深色模式扩展运行的函数
+        function checkDarkModeExtension() {
+            const testElement = document.createElement('div');
+            testElement.style.display = 'none';
+            document.body.appendChild(testElement);
+
+            const computedStyle = window.getComputedStyle(testElement);
+            const backgroundColor = computedStyle.backgroundColor;
+
+            document.body.removeChild(testElement);
+
+            return backgroundColor !== 'rgb(255, 255, 255)';
+        }
+
+        // 页面加载完成后立即执行检查
+        document.addEventListener('DOMContentLoaded', () => {
+            if (checkDarkModeExtension()) {
+                console.log('检测到深色模式扩展');
+                // 在这里添加您想要执行的代码，例如：
+                document.body.classList.add('dark-mode');
+            } else {
+                console.log('未检测到深色模式扩展');
+                // 在这里添加您想要执行的代码，例如：
+                document.body.classList.add('light-mode');
+            }
+        });
+    </script>
+</head>
+<body>
+    <h1>欢迎来到我的网站</h1>
+    <p>这是一个深色模式检测示例。</p>
+</body>
+</html>

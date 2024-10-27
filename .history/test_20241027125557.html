@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>深色模式扩展检测示例</title>
+    <script src="checkdarkmode.js"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        #bgCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        .content {
+            position: relative;
+            z-index: 1;
+            color: white;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        /* ... 其他样式保持不变 ... */
+    </style>
+</head>
+<body>
+    <canvas id="bgCanvas"></canvas>
+    <div class="content">
+        <h1>深色模式扩展检测示例</h1>
+        <p>检测结果：<span id="result">正在检测...</span></p>
+        <p>这是一个深色模式扩展检测示例。如果检测到扩展可能更改了页面

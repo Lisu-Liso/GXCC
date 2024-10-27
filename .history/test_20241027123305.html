@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>深色模式检测示例</title>
+    <style>
+        body {
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .dark-mode {
+            background-color: #333;
+            color: #fff;
+        }
+        .light-mode {
+            background-color: #fff;
+            color: #333;
+        }
+    </style>
+    <script>
+        function checkDarkMode() {
+            return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        }
+
+        function updateTheme() {
+            const resultElement = document.getElementById('result');
+            const body = document.body;
+
+            if (checkDarkMode()) {
+                resultElement.textContent = '检测到深色模式';
+                body.classList.remove('light-mode');
+                body.classList.add('dark-mode');
+            } else {
+                resultElement.textContent = '检测到浅色模式';
+                body.classList.remove('dark-mode');
+                body.classList.add('light-mode');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', updateTheme);
+
+        // 监听系统主题变化
+        if (window.matchMedia) {
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(updateTheme);
+        }
+    </script>
+</head>
+<body>
+    <h1>深色模式检测示例</h1>
+    <p>检测结果：<span id="result">正在检测...</span></p>
+    <p>这是一个深色模式检测示例。根据系统设置，页面背景和文字颜色会相应变化。</p>
+</body>
+</html>

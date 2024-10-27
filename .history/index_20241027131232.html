@@ -223,7 +223,6 @@
                 width: 100%;
                 height: 100%;
                 z-index: 9999; /* 比其他元素高，但比 overlay 低 */
-                background-color: black;
             }
             .dark-mode-modal-container {
                 position: relative;
@@ -250,24 +249,11 @@
             .dark-mode-modal button:active {
                 transform: scale(0.98);
             }
-            .gxcc-text {
-                position: fixed;
-                top: 10%;
-                left: 50%;
-                transform: translateX(-50%);
-                font-size: 72px;
-                /* font-weight: bold; */
-                color: white;
-                /* text-shadow: 0 0 10px rgba(255, 255, 255, 0.7); */
-                z-index: 10000;
-                white-space: pre;
-            }
         </style>
         <script src="checkdarkmode.js"></script>
     </head>
     <body>
         <canvas id="bgCanvas" class="backgroundimage"></canvas>
-        <div class="gxcc-text">G  X  C  C</div>
         <script>
             // 获取画布
             var canvas = document.getElementById('bgCanvas');
@@ -363,7 +349,7 @@
                 <br>
                 <font class="normaltext" style="color:red;">如果杀毒软件报告有病毒请忽略，此软件已经经过Microsoft Defender检测，360纯属误报。</font>
                 <br>
-                <font class="smallnormaltext" style="color: #76d880;">软件声明：对AI说过的一切内容由你本地的计算机进行计算和处理，无需上传网络，请放心共享您的信息。出于运行需要，你对AI分享的信息会被作为日志保存在AIDriver扩展的文件夹中的日志文件中，如果你需要清除这些信息，请不要删除这些文件。请打开文件并写入‘1’作为占位，否则会影响AIDriver的正常运行。</font>
+                <font class="smallnormaltext" style="color: #76d880;">软件声明：您对AI说过的一切内容由你本地的计算机进行计算和处理，无需上传网络，请放心共享您的信息。出于运行需要，你对AI分享的信息会被作为日志保存在AIDriver扩展的文件夹中的日志文件中，如果你需要清除这些信息，请不要删除这些文件。请打开文件并写入‘1’作为占位，否则会影响AIDriver的正常运行。</font>
                 <br>
                 <a class="normaltext newbutton" href="https://github.com/Lisu-Liso/GXCC/releases">Link</a>
             </div>

@@ -196,78 +196,10 @@
                 font-size: 12pt;
                 color: white;
             }
-            @keyframes fadeIn {
-                from { opacity: 0; }
-                to { opacity: 1; }
-            }
-            @keyframes slideIn {
-                from { transform: translateY(-50px); opacity: 0; }
-                to { transform: translateY(0); opacity: 1; }
-            }
-            .dark-mode-overlay {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                z-index: 10000; /* 使用很高的 z-index 值 */
-                animation: fadeIn 0.3s ease-out forwards;
-            }
-            #bgCanvas {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                z-index: 9999; /* 比其他元素高，但比 overlay 低 */
-                background-color: black;
-            }
-            .dark-mode-modal-container {
-                position: relative;
-                z-index: 10001; /* 比 overlay 更高 */
-            }
-            .dark-mode-modal {
-                background-color: rgba(255, 255, 255, 0.9);
-                padding: 20px;
-                border-radius: 10px;
-                text-align: center;
-                color: black;
-                animation: slideIn 0.3s ease-out 0.1s forwards;
-                box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-            }
-            .dark-mode-modal button {
-                margin-top: 10px;
-                padding: 5px 10px;
-                cursor: pointer;
-                transition: background-color 0.3s, transform 0.1s;
-            }
-            .dark-mode-modal button:hover {
-                background-color: #f0f0f0;
-            }
-            .dark-mode-modal button:active {
-                transform: scale(0.98);
-            }
-            .gxcc-text {
-                position: fixed;
-                top: 10%;
-                left: 50%;
-                transform: translateX(-50%);
-                font-size: 72px;
-                /* font-weight: bold; */
-                color: white;
-                /* text-shadow: 0 0 10px rgba(255, 255, 255, 0.7); */
-                z-index: 10000;
-                white-space: pre;
-            }
         </style>
-        <script src="checkdarkmode.js"></script>
     </head>
     <body>
         <canvas id="bgCanvas" class="backgroundimage"></canvas>
-        <div class="gxcc-text">G  X  C  C</div>
         <script>
             // 获取画布
             var canvas = document.getElementById('bgCanvas');
@@ -363,7 +295,7 @@
                 <br>
                 <font class="normaltext" style="color:red;">如果杀毒软件报告有病毒请忽略，此软件已经经过Microsoft Defender检测，360纯属误报。</font>
                 <br>
-                <font class="smallnormaltext" style="color: #76d880;">软件声明：对AI说过的一切内容由你本地的计算机进行计算和处理，无需上传网络，请放心共享您的信息。出于运行需要，你对AI分享的信息会被作为日志保存在AIDriver扩展的文件夹中的日志文件中，如果你需要清除这些信息，请不要删除这些文件。请打开文件并写入‘1’作为占位，否则会影响AIDriver的正常运行。</font>
+                <font class="smallnormaltext" style="color: #76d880;">软件声明：您对AI说过的一切内容由你本地的计算机进行计算和处理，无需上传网络，请放心共享您的信息。出于运行需要，你对AI分享的信息会被作为日志保存在AIDriver扩展的文件夹中的日志文件中，如果你需要清除这些信息，请不要删除这些文件。请打开文件并写入‘1’作为占位，否则会影响AIDriver的正常运行。</font>
                 <br>
                 <a class="normaltext newbutton" href="https://github.com/Lisu-Liso/GXCC/releases">Link</a>
             </div>
@@ -446,105 +378,6 @@
         <div class="getin_screen" id="getin">
             <font size="7" id="getintext">网站正在加载，请稍后...</font>
         </div>
-        <script>
-        // 保留原有的脚本
-        // ...
-
-        // 添加新的脚本
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log("开始检测深色模式扩展");
-            try {
-                checkDarkModeExtension((isDarkMode) => {
-                    console.log("检测完成，结果：", isDarkMode);
-                    if (isDarkMode) {
-                        showDarkModeWarning();
-                    }
-                });
-            } catch (error) {
-                console.error("检测过程中发生错误：", error);
-            }
-
-            // 初始化星空背景
-            initStarryBackground(document.getElementById('bgCanvas'));
-        });
-
-        function showDarkModeWarning() {
-            const overlay = document.createElement('div');
-            overlay.className = 'dark-mode-overlay';
-            const modalContainer = document.createElement('div');
-            modalContainer.className = 'dark-mode-modal-container';
-            const modal = document.createElement('div');
-            modal.className = 'dark-mode-modal';
-            modal.innerHTML = `
-                <h2>检测到深色模式扩展</h2>
-                <p>我们检测到您正在使用深色模式扩展。为了获得最佳体验，请关闭该扩展，然后刷新页面。</p>
-                <button onclick="refreshPage()">刷新页面</button>
-            `;
-            modalContainer.appendChild(modal);
-            overlay.appendChild(modalContainer);
-            document.body.appendChild(overlay);
-        }
-
-        function refreshPage() {
-            location.reload();
-        }
-
-        function initStarryBackground(canvas) {
-            const ctx = canvas.getContext('2d');
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            const stars = [];
-
-            function Star(x, y, radius, color, speed) {
-                this.x = x;
-                this.y = y;
-                this.radius = radius;
-                this.color = color;
-                this.speed = speed;
-            }
-
-            function init() {
-                for (let i = 0; i < 200; i++) {
-                    const x = Math.random() * canvas.width;
-                    const y = Math.random() * canvas.height;
-                    const radius = Math.random() * 1.5;
-                    const color = 'white';
-                    const speed = Math.random() * 0.3;
-                    stars.push(new Star(x, y, radius, color, speed));
-                }
-            }
-
-            function drawStars() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                for (let star of stars) {
-                    ctx.beginPath();
-                    ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-                    ctx.fillStyle = star.color;
-                    ctx.fill();
-                }
-            }
-
-            function updateStars() {
-                for (let star of stars) {
-                    star.x += star.speed;
-                    if (star.x > canvas.width) {
-                        star.x = 0;
-                    }
-                }
-            }
-
-            function animate() {
-                requestAnimationFrame(animate);
-                drawStars();
-                updateStars();
-            }
-
-            init();
-            animate();
-        }
-        </script>
     </body>
     <script type="text/javascript">
         let t = document.getElementById("download_block");

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>深色模式扩展检测示例</title>
+    <script src="checkdarkmode.js"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            background-color: black;
+        }
+        #bgCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        .content {
+            position: relative;
+            z-index: 1;
+            color: white;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease-out;
+        }
+        .modal {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            animation: slideIn 0.3s ease-out;
+            color: black;
+        }
+        .modal button {
+            margin-top: 10px;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+        .modal button:hover {
+            background-color: #f0f0f0;
+        }
+        .modal button:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body>
+    <canvas id="bgCanvas" class="backgroundimage"></canvas>
+    <script>
+        // 获取画布
+        var canvas = document.getElementById('bgCanvas');
+        var ctx = canvas.getContext('2d');
+
+        // 设置画布尺寸与窗口大小一致
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // 创建一个数组用于存储星星的信息
+        var stars = [];
+
+        // 创建星星对象
+        function Star(x, y, radius, color, speed) {
+            this.x = x;
+            this.y = y;
+            this.radius = radius;
+            this.color = color;
+            this.speed = speed;
+        }
+
+        // 初始化星星
+        function init() {
+            for (var i = 0; i < 200; i++) {
+                var x = Math.random() * canvas.width;
+                var y = Math.random() * canvas.height;
+                var radius = Math.random() * 2;
+                var color = 'white';
+                var speed = Math.random() * 0.5;
+
+                stars.push(new Star(x, y, radius, color, speed));
+            }
+        }
+
+        // 绘制星星
+        function drawStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (var i = 0; i < stars.length; i++) {
+                var star = stars[i];
+
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.fillStyle = star.color;
+                ctx.fill();
+            }
+        }
+
+        // 更新星星位置
+        function updateStars() {
+            for (var i = 0; i < stars.length; i++) {
+                var star = stars[i];
+
+                star.x += star.speed;
+
+                if (star.x > canvas.width) {
+                    star.x = 0;
+                }
+            }
+        }
+
+        // 动画循环
+        function animate() {
+            requestAnimationFrame(animate);
+
+            drawStars();
+            updateStars();
+        }
+
+        // 初始化并启动动画
+        init();
+        animate();
+    </script>
+    <div class="content">
+        <h1>深色模式扩展检测示例</h1>
+        <p>检测结果：<span id="result">正在检测...</span></p>
+        <p>这是一个深色模式扩展检测示例。如果检测到扩展可能更改了页面颜色，将会弹出提示。</p>
+    </div>
+
+        <script>
+        function showDarkModeWarning() {
+            const overlay = document.createElement('div');
+            overlay.className = 'overlay';
+            
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.innerHTML = `
+                <h2>检测到深色模式扩展</h2>
+                <p>我们检测到您正在使用深色模式扩展。为了获得最佳体验，请关闭该扩展，然后刷新页面。</p>
+                <button onclick="refreshPage()">刷新页面</button>
+            `;
+            
+            overlay.appendChild(modal);
+            document.body.appendChild(overlay);
+        }
+
+        function refreshPage() {
+            location.reload();
+        }
+    </script>
+</body>
+</html>
