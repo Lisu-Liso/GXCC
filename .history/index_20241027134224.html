@@ -451,7 +451,7 @@
         // ...
 
         // 添加新的脚本
-        function tolightmode() {
+        document.addEventListener('DOMContentLoaded', function() {
             console.log("开始检测深色模式扩展");
             try {
                 checkDarkModeExtension((isDarkMode) => {
@@ -468,9 +468,7 @@
                 // 发生错误时也隐藏GXCC文本和星空背景
                 hideGXCCTextAndStarryBackground();
             }
-        }
-        document.addEventListener('DOMContentLoaded', tolightmode);
-        const intervalId = setInterval(tolightmode, 5000);
+        });
 
         function hideGXCCTextAndStarryBackground() {
             // 隐藏GXCC文本
@@ -482,7 +480,8 @@
             // 隐藏星空背景
             const bgCanvas = document.getElementById('bgCanvas');
             if (bgCanvas) {
-                bgCanvas.style.zIndex = -1;
+                // bgCanvas.style.display = 'none';
+                bgCanvas.styl
             }
         }
 
@@ -505,6 +504,62 @@
 
         function refreshPage() {
             location.reload();
+        }
+
+        function initStarryBackground(canvas) {
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            const stars = [];
+
+            function Star(x, y, radius, color, speed) {
+                this.x = x;
+                this.y = y;
+                this.radius = radius;
+                this.color = color;
+                this.speed = speed;
+            }
+
+            function init() {
+                for (let i = 0; i < 200; i++) {
+                    const x = Math.random() * canvas.width;
+                    const y = Math.random() * canvas.height;
+                    const radius = Math.random() * 1.5;
+                    const color = 'white';
+                    const speed = Math.random() * 0.3;
+                    stars.push(new Star(x, y, radius, color, speed));
+                }
+            }
+
+            function drawStars() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                for (let star of stars) {
+                    ctx.beginPath();
+                    ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = star.color;
+                    ctx.fill();
+                }
+            }
+
+            function updateStars() {
+                for (let star of stars) {
+                    star.x += star.speed;
+                    if (star.x > canvas.width) {
+                        star.x = 0;
+                    }
+                }
+            }
+
+            function animate() {
+                requestAnimationFrame(animate);
+                drawStars();
+                updateStars();
+            }
+
+            init();
+            animate();
         }
 
         function hideGXCCText() {

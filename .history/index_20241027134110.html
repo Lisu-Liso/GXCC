@@ -361,7 +361,7 @@
             <div style="margin-left: 1cm;">
                 <font size="7" color="black">这里是下载链接</font>
                 <br>
-                <font class="normaltext" style="color:red;">如果杀毒软件报告有病毒请忽略，此软件��过Microsoft Defender测��360纯属误报。</font>
+                <font class="normaltext" style="color:red;">如果杀毒软件报告有病毒请忽略，此软件��经过Microsoft Defender��测，360纯属误报。</font>
                 <br>
                 <font class="smallnormaltext" style="color: #76d880;">软件声明：对AI说过的一切内容由你本地的计算机进行计算和处理，无需上传网络，请放心共享您的信息。出于运行需要，你对AI分享的信息会被作为日志保存在AIDriver扩展的文件夹中的日志文件中，如果你需要清除这些信息，请不要删除这些文件。请打开文件并写入‘1’作为占位，否则会影响AIDriver的正常运行。</font>
                 <br>
@@ -451,7 +451,7 @@
         // ...
 
         // 添加新的脚本
-        function tolightmode() {
+        document.addEventListener('DOMContentLoaded', function() {
             console.log("开始检测深色模式扩展");
             try {
                 checkDarkModeExtension((isDarkMode) => {
@@ -459,32 +459,18 @@
                     if (isDarkMode) {
                         showDarkModeWarning();
                     } else {
-                        // 如果没有检测到深色模式扩展，隐藏GXCC文本和星空背景
-                        hideGXCCTextAndStarryBackground();
+                        // 如果没有检测到深色模式扩展，隐藏星空背景，显示GXCC文本
+                        hideStarryBackground();
+                        showGXCCText();
                     }
                 });
             } catch (error) {
                 console.error("检测过程中发生错误：", error);
-                // 发生错误时也隐藏GXCC文本和星空背景
-                hideGXCCTextAndStarryBackground();
+                // 发生错误时也隐藏星空背景，显示GXCC文本
+                hideStarryBackground();
+                showGXCCText();
             }
-        }
-        document.addEventListener('DOMContentLoaded', tolightmode);
-        const intervalId = setInterval(tolightmode, 5000);
-
-        function hideGXCCTextAndStarryBackground() {
-            // 隐藏GXCC文本
-            const gxccText = document.querySelector('.gxcc-text');
-            if (gxccText) {
-                gxccText.style.display = 'none';
-            }
-
-            // 隐藏星空背景
-            const bgCanvas = document.getElementById('bgCanvas');
-            if (bgCanvas) {
-                bgCanvas.style.zIndex = -1;
-            }
-        }
+        });
 
         function showDarkModeWarning() {
             const overlay = document.createElement('div');
@@ -505,6 +491,62 @@
 
         function refreshPage() {
             location.reload();
+        }
+
+        function initStarryBackground(canvas) {
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            const stars = [];
+
+            function Star(x, y, radius, color, speed) {
+                this.x = x;
+                this.y = y;
+                this.radius = radius;
+                this.color = color;
+                this.speed = speed;
+            }
+
+            function init() {
+                for (let i = 0; i < 200; i++) {
+                    const x = Math.random() * canvas.width;
+                    const y = Math.random() * canvas.height;
+                    const radius = Math.random() * 1.5;
+                    const color = 'white';
+                    const speed = Math.random() * 0.3;
+                    stars.push(new Star(x, y, radius, color, speed));
+                }
+            }
+
+            function drawStars() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                for (let star of stars) {
+                    ctx.beginPath();
+                    ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = star.color;
+                    ctx.fill();
+                }
+            }
+
+            function updateStars() {
+                for (let star of stars) {
+                    star.x += star.speed;
+                    if (star.x > canvas.width) {
+                        star.x = 0;
+                    }
+                }
+            }
+
+            function animate() {
+                requestAnimationFrame(animate);
+                drawStars();
+                updateStars();
+            }
+
+            init();
+            animate();
         }
 
         function hideGXCCText() {

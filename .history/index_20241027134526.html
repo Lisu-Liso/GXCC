@@ -451,7 +451,7 @@
         // ...
 
         // 添加新的脚本
-        function tolightmode() {
+        document.addEventListener('DOMContentLoaded', function () {
             console.log("开始检测深色模式扩展");
             try {
                 checkDarkModeExtension((isDarkMode) => {
@@ -468,9 +468,7 @@
                 // 发生错误时也隐藏GXCC文本和星空背景
                 hideGXCCTextAndStarryBackground();
             }
-        }
-        document.addEventListener('DOMContentLoaded', tolightmode);
-        const intervalId = setInterval(tolightmode, 5000);
+        });
 
         function hideGXCCTextAndStarryBackground() {
             // 隐藏GXCC文本

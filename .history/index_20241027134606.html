@@ -451,25 +451,7 @@
         // ...
 
         // 添加新的脚本
-        function tolightmode() {
-            console.log("开始检测深色模式扩展");
-            try {
-                checkDarkModeExtension((isDarkMode) => {
-                    console.log("检测完成，结果：", isDarkMode);
-                    if (isDarkMode) {
-                        showDarkModeWarning();
-                    } else {
-                        // 如果没有检测到深色模式扩展，隐藏GXCC文本和星空背景
-                        hideGXCCTextAndStarryBackground();
-                    }
-                });
-            } catch (error) {
-                console.error("检测过程中发生错误：", error);
-                // 发生错误时也隐藏GXCC文本和星空背景
-                hideGXCCTextAndStarryBackground();
-            }
-        }
-        document.addEventListener('DOMContentLoaded', tolightmode);
+        document.addEventListener('DOMContentLoaded', );
         const intervalId = setInterval(tolightmode, 5000);
 
         function hideGXCCTextAndStarryBackground() {
